@@ -5,7 +5,6 @@ export default function SearchBox({ searchChange }) {
     <div>
       <input
         placeholder='Search for...'
-        type='search'
         aria-label='search'
         onChange={searchChange}
       />
