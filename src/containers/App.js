@@ -1,13 +1,27 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import SearchBox from '../components/SearchBox';
 import CardsList from '../components/CardsList';
+import { setSearchField } from '../actions';
 
-export default class App extends Component {
-  constructor() {
-    super();
+const mapStateToProps = state => {
+  return {
+    searchField: state.searchField
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSearchField: event => dispatch(setSearchField(event.target.value))
+  };
+};
+
+class App extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
-      robots: [],
-      searchField: ''
+      robots: []
     };
   }
 
@@ -17,15 +31,9 @@ export default class App extends Component {
       .then(data => this.setState({ robots: data }));
   }
 
-  onSearchChange = e => {
-    this.setState({
-      searchField: e.target.value
-    });
-  };
-
   render() {
-    const { robots, searchField } = this.state;
-    const { onSearchChange } = this;
+    const { robots } = this.state;
+    const { onSearchChange, searchField } = this.props;
 
     const filteredRobots = robots.filter(robot => {
       return robot.name.toLowerCase().includes(searchField.toLowerCase());
@@ -40,3 +48,8 @@ export default class App extends Component {
     );
   }
 }
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
