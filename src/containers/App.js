@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
+import Search from '../components/Search';
+import Robots from '../components/Robots';
+
+// Redux actions
+import { setSearchField } from '../actions';
+
+// Redux connect
 import { connect } from 'react-redux';
 
-import SearchBox from '../components/SearchBox';
-import CardsList from '../components/CardsList';
-import { setSearchField } from '../actions';
+// Sass
+import '../assets/style.scss';
 
 const mapStateToProps = state => {
   return {
@@ -13,13 +19,13 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onSearchField: event => dispatch(setSearchField(event.target.value))
+    onSearchChange: e => dispatch(setSearchField(e.target.value))
   };
 };
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       robots: []
     };
@@ -33,17 +39,16 @@ class App extends Component {
 
   render() {
     const { robots } = this.state;
-    const { onSearchChange, searchField } = this.props;
+    const { searchField, onSearchChange } = this.props;
 
-    const filteredRobots = robots.filter(robot => {
+    const filteredRobot = robots.filter(robot => {
       return robot.name.toLowerCase().includes(searchField.toLowerCase());
     });
 
     return (
-      <div>
-        <h1>robofriends</h1>
-        <SearchBox searchChange={onSearchChange} />
-        <CardsList robots={filteredRobots} />
+      <div className='app'>
+        <Search searchChange={onSearchChange} />
+        <Robots robots={filteredRobot} />
       </div>
     );
   }
