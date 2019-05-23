@@ -3,16 +3,20 @@ import ReactDOM from 'react-dom';
 import App from './containers/App';
 
 // Redux
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import { createLogger } from 'redux-logger';
 
 // Redux reducer
 import { search } from './reducers';
 
 import * as serviceWorker from './serviceWorker';
 
+// Initiate the logger
+const logger = createLogger();
+
 // Initialize the store
-const store = createStore(search);
+const store = createStore(search, applyMiddleware(logger));
 
 ReactDOM.render(
   <Provider store={store}>
