@@ -3,20 +3,27 @@ import ReactDOM from 'react-dom';
 import App from './containers/App';
 
 // Redux
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import { createLogger } from 'redux-logger';
+import thunkMiddleware from 'redux-thunk';
 
 // Redux reducer
-import { search } from './reducers';
+import { search, requestRobots } from './reducers';
 
 import * as serviceWorker from './serviceWorker';
 
 // Initiate the logger
 const logger = createLogger();
 
+// Combine the reducers
+const rootReducer = combineReducers({ search, requestRobots });
+
 // Initialize the store
-const store = createStore(search, applyMiddleware(logger));
+const store = createStore(
+  rootReducer,
+  applyMiddleware(thunkMiddleware, logger)
+);
 
 ReactDOM.render(
   <Provider store={store}>
