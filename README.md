@@ -1,4 +1,4 @@
-# Robofriends
+# Robofriends 🤖
 
 ## Available Scripts
 
